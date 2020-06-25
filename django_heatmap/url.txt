@@ -1,10 +1,10 @@
-URL�f�B�X�p�b�`
-�A�v��������������ł́A�A�v���ɃA�N�Z�X���鎖�͏o���Ȃ��B
-�A�A�A�̂ŁAURL���f�B�X�p�b�`����ׂ̃��[�����`����
+URLディスパッチ
+アプリを作っただけでは、アプリにアクセスする事は出来ない。
+、、、ので、URLをディスパッチする為のルールを定義する
 
-�f�B�X�p�b�`���O�̃��[���́A�v���W�F�N�g��url.py�ŃA�v���ɐU�蕪���郋�[�����`���A�A�v����url.py�ŃA�v�����̐U�蕪�����`����B
+ディスパッチングのルールは、プロジェクトのurl.pyでアプリに振り分けるルールを定義し、アプリのurl.pyでアプリ内の振り分けを定義する。
 
-�`���[�g���A���ł͉��L�̂悤�ɒ�`����Ă���
+チュートリアルでは下記のように定義されている
 
 /urls.py
 from django.urls import include, path
@@ -15,9 +15,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 path('polls/', include('polls.urls')),
-�́Aurl��'polls/'�������ꍇ�́Apolls/urls.py���Q�Ƃ��Ȃ���Ƃ����Ӗ��B
+は、urlが'polls/'だった場合は、polls/urls.pyを参照しなされという意味。
 
-����polls/urls.py�͉��L�̂悤�ɒ�`����Ă���
+そのpolls/urls.pyは下記のように定義されている
 
 polls/urls.py
 from django.urls import path
@@ -27,11 +27,11 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
 ]
-����́Apolls/�̉��ɉ����Ȃ����́Aview.py��index�֐����Ăяo���Ƃ����Ӗ��ɂȂ�
-name=�ŁA����URL�p�^�[���ɖ��O�����邱�Ƃ��o����B
-�����ł������O�ɂ���Ď��ۂ�url���擾���鎖���o����
+これは、polls/の下に何もない時は、view.pyのindex関数を呼び出すという意味になる
+name=で、このURLパターンに名前をつけることが出来る。
+ここでつけた名前によって実際のurlを取得する事が出来る
 
-������m���߂邽�߂ɁA�T���v����view.py��ύX���ăe�X�g���Ă݂�
+これを確かめるために、サンプルのview.pyを変更してテストしてみる
 
 polls/views.py
 from django.http import HttpResponse
@@ -41,8 +41,10 @@ def index(request):
     urlName = reverse('index')
     return HttpResponse("Hello, world. You're at the polls index.{0}".format(urlName))
 http://127.0.0.1:8000/polls/
-�ɃA�N�Z�X����ƁA���L�̂悤�ɕ\�������
+にアクセスすると、下記のように表示される
 
 Hello, world. You're at the polls index./polls/
+
+sonohoka
 
 
