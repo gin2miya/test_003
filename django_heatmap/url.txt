@@ -1,0 +1,46 @@
+URLディスパッチ
+アプリを作っただけでは、アプリにアクセスする事は出来ない。
+、、、ので、URLをディスパッチする為のルールを定義する
+
+ディスパッチングのルールは、プロジェクトのurl.pyでアプリに振り分けるルールを定義し、アプリのurl.pyでアプリ内の振り分けを定義する。
+
+チュートリアルでは下記のように定義されている
+
+/urls.py
+from django.urls import include, path
+from django.contrib import admin
+
+urlpatterns = [
+    path('polls/', include('polls.urls')),
+    path('admin/', admin.site.urls),
+]
+path('polls/', include('polls.urls')),
+は、urlが'polls/'だった場合は、polls/urls.pyを参照しなされという意味。
+
+そのpolls/urls.pyは下記のように定義されている
+
+polls/urls.py
+from django.urls import path
+
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index'),
+]
+これは、polls/の下に何もない時は、view.pyのindex関数を呼び出すという意味になる
+name=で、このURLパターンに名前をつけることが出来る。
+ここでつけた名前によって実際のurlを取得する事が出来る
+
+これを確かめるために、サンプルのview.pyを変更してテストしてみる
+
+polls/views.py
+from django.http import HttpResponse
+from django.urls import reverse
+
+def index(request):
+    urlName = reverse('index')
+    return HttpResponse("Hello, world. You're at the polls index.{0}".format(urlName))
+http://127.0.0.1:8000/polls/
+にアクセスすると、下記のように表示される
+
+Hello, world. You're at the polls index./polls/

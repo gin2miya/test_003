@@ -1,0 +1,9 @@
+py -m django startproject mysite
+でプロジェクトを作る
+
+pythssoxn ss-m django --version
+でバージョン確認
+
+python manage.py runserver
+
+http://localhost:8000/maps/templates/
